@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Active.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,12 +17,27 @@ namespace Active.Controllers
         {
             return View();
         }
-
+        [HttpGet]
         public IActionResult Contact() 
         {
             return View();
         }
 
-       
+        [HttpPost]
+        public IActionResult Contact(Message usermessage)
+        {
+            if (ModelState.IsValid)
+            {
+                return RedirectToAction("Contact"); // Перенаправление на Contact после успешной отправки
+            }
+            else
+            {
+                return View("Contact", usermessage); // Остаёмся на Contact с отображением ошибок
+            }
+        }
+
+
+
+
     }
 }
