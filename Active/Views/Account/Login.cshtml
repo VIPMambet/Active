@@ -1,0 +1,17 @@
+﻿@model Login
+<div class="col-lg-8">
+    <form asp-action="Login" asp-controller="Account" method="post" role="form" class="">
+        <div class="row">
+            <div class="col-md-6 form-group mt-3 mt-md-0">
+                <input type="email" class="form-control" asp-for="Email" id="email" placeholder="Your Email" required="">
+            </div>
+        </div>
+        <div class="form-group mt-3">
+            <input type="text" class="form-control" asp-for="Password" id="subject" placeholder="Password" required="">
+        </div>
+        <div class="text-center"><button type="submit">LOGIN</button></div>
+        <div asp-validation-summary="All"></div>
+
+    </form>
+
+</div><!-- End Contact Form -->

@@ -74,6 +74,17 @@
                     </li>
                     <li><a href="@Url.Action("Contact", "Home")" class="active">Contact</a></li>
                     <li>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <a href="#">@User.Identity.Name</a>
+                            <a href="/Account/SignOut"> | Sign Out</a>
+                        }
+                        else
+                        {
+                            <a href="/Account/Login"> | Sign In</a>
+                        }
+                    </li>
+                    <li>
                         <!--  SPAN -->
                         <span> | </span>
                         <span>City: </span>
