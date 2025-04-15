@@ -2,10 +2,8 @@
 using Active.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Active.Controllers
-{
-    public class HomeController : Controller
-    {
+namespace Active.Controllers {
+    public class HomeController : Controller {
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -17,42 +15,71 @@ namespace Active.Controllers
         {
             return View();
         }
+
+        // GET: /Home/Contact
         [HttpGet]
-        public IActionResult Contact() 
+        public IActionResult Contact()
         {
             return View();
         }
 
+        // POST: /Home/Contact
         [HttpPost]
-        public IActionResult Contact(Message usermessage)
+        public IActionResult Contact(Message usermessage, string ElapsedTime)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Contact"); // Перенаправление на Contact после успешной отправки
+                ViewBag.Elapsed = ElapsedTime;
+                return View(usermessage);
             }
             else
             {
-                return View("Contact", usermessage); // Остаёмся на Contact с отображением ошибок
+                return View(usermessage); // ошибки валидации покажутся, ViewBag.Elapsed не нужен
             }
         }
 
-        //GET
-        public JsonResult SetCity(string city) 
+        // GET: /Home/Order
+        public IActionResult Order()
+        {
+            return View();
+        }
+
+        // AJAX: Set city
+        [HttpPost]
+        public JsonResult SetCity(string city)
         {
             try
             {
                 CookieOptions option = new CookieOptions();
                 option.Expires = DateTime.Now.AddMinutes(1);
-                Response.Cookies.Append("city",city);
+                Response.Cookies.Append("city", city);
                 return Json(city);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return Json(ex.Message);
             }
-        
-        
         }
+
+        // GET: /Home/Game
+        public IActionResult Game()
+        {
+            var model = new GuessNumberModel(); // Создаем экземпляр модели
+            return View(model); // Передаем модель в представление
+        }
+
+        // POST: /Home/Game
+        [HttpPost]
+        public IActionResult Game(GuessNumberModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.OnPost(); // Обрабатываем действия пользователя
+                return View(model); // Возвращаем обновленную модель в представление
+            }
+            return View(model); // В случае ошибки валидации возвращаем модель
+        }
+
 
 
     }

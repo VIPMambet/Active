@@ -1,19 +1,13 @@
 ﻿@model Message
 
-
 @{
     ViewData["Description"] = "Contact";
 }
 
-
-
-
 <main class="main">
 
-    
     <!-- Contact Section -->
     <section id="contact" class="contact section">
-
         <div class="container" data-aos="fade">
 
             <div class="row gy-5 gx-lg-5">
@@ -53,13 +47,13 @@
                 </div>
 
                 <div class="col-lg-8">
-                    <form asp-action="Contact" asp-controller="Home" method="post" role="form" class="php-email-form">
+                    <form asp-action="Contact" asp-controller="Home" method="post" role="form" class="" onsubmit="beforeSubmit()">
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <input type="text" asp-for="name" class="form-control" id="name" placeholder="Your Name" required="">
                             </div>
                             <div class="col-md-6 form-group mt-3 mt-md-0">
-                                <input type="email" class="form-control" asp-for="email" id="email" placeholder="Your Email" required="">
+                                <input type="text" class="form-control" asp-for="email" id="email" placeholder="Your Email" required="">
                             </div>
                         </div>
                         <div class="form-group mt-3">
@@ -68,24 +62,39 @@
                         <div class="form-group mt-3">
                             <textarea class="form-control" asp-for="message" placeholder="Message" required=""></textarea>
                         </div>
-                        
-                        <div class="my-3">
-                            <div class="loading">Loading</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">Your message has been sent. Thank you!</div>
-                        </div>
-                        <div class="text-center"><button type="submit">Send Message</button></div>
-                        <div asp-validation-summary="All"></div>
-                       
-                    </form>
 
-                </div><!-- End Contact Form -->
-                
+                        <!-- Скрытое поле для времени -->
+                        <input type="hidden" name="ElapsedTime" id="ElapsedTime" />
+
+                        <div class="my-3" asp-validation-summary="All"></div>
+                        <div class="text-center"><button type="submit">Send Message</button></div>
+                    </form><!-- End Contact Form -->
+                    @if (ViewBag.Elapsed != null)
+                    {
+                        <div class="alert alert-info mt-3">
+                            Вы заполнили форму за <strong>@ViewBag.Elapsed</strong> секунд.
+                        </div>
+                    }
+
+                </div>
 
             </div>
 
         </div>
-
     </section><!-- /Contact Section -->
 
 </main>
+
+<script>
+    let startTime;
+
+    window.onload = () => {
+        startTime = new Date();
+    };
+
+    function beforeSubmit() {
+        const endTime = new Date();
+        const elapsedSeconds = ((endTime - startTime) / 1000).toFixed(2);
+        document.getElementById("ElapsedTime").value = elapsedSeconds;
+    }
+</script>

@@ -1,0 +1,65 @@
+﻿@model GuessNumberModel
+
+@{
+    ViewData["Description"] = "Guess Number Game";
+}
+
+<main class="main">
+
+    <!-- Game Section -->
+    <section id="game" class="game section">
+        <div class="container" data-aos="fade">
+
+            <div class="row gy-5 gx-lg-5">
+
+                <div class="col-lg-4">
+                    <div class="info">
+                        <h3>Угадай число!</h3>
+                        <p>Попробуйте угадать число от 1 до 100. Введите ваше число и проверьте, насколько вы близки!</p>
+
+                        <div class="info-item d-flex">
+                            <i class="bi bi-joystick flex-shrink-0"></i>
+                            <div>
+                                <h4>Правила:</h4>
+                                <p>Число от 1 до 100. Чем меньше попыток, тем лучше!</p>
+                            </div>
+                        </div><!-- End Info Item -->
+
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <form asp-action="Game" asp-controller="Home" method="post" role="form" class="">
+                        <div class="form-group">
+                            <label for="guessNumber" class="form-label">Введите ваше число (от 1 до 100):</label>
+                            <input type="number" asp-for="GuessNumber" class="form-control" id="guessNumber" placeholder="Ваше число" required min="1" max="100" />
+                        </div>
+
+                        <div class="my-3" asp-validation-summary="All"></div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Угадать</button>
+                        </div>
+                    </form><!-- End Game Form -->
+                    @if (Model.GuessResult != null)
+                    {
+                        <div class="alert alert-info mt-3">
+                            <p>@Model.GuessResult</p>
+                        </div>
+                    }
+
+                    @if (Model.GameOver)
+                    {
+                        <div class="alert alert-success mt-3">
+                            <p>Поздравляем, вы угадали число!</p>
+                            <a href="/Home/Game" class="btn btn-outline-success">Начать заново</a>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- /Game Section -->
+
+</main>

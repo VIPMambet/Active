@@ -56,17 +56,25 @@ namespace Active.Controllers {
 
         public async Task<IActionResult> AddUser()
         {
-            AppUser user = new AppUser();
-            user.UserName = "admin";
-            user.Email = "gersen.e.a@gmail.com";
+            AppUser user = new AppUser
+            {
+                UserName = "admin",
+                Email = "gersen.e.a@gmail.com"
+            };
             var result = await _userManager.CreateAsync(user, "Gg110188@");
 
             if (result.Succeeded)
             {
-
+                return RedirectToAction("Index", "Home");
             }
-
-            return View();
+            else
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View();
+            }
         }
     }
 }

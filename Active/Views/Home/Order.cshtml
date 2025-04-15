@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Description"] = "Order";
+}
+
+<main class="main">
+    <section id="download-section" class="download section">
+        <div class="container" data-aos="fade">
+            <div class="row gy-5 gx-lg-5">
+                <div class="col-lg-8 offset-lg-2">
+                    <h3>Скачивание файлов</h3>
+                    <form id="downloadForm">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="file1" name="files" value="/assets/doc/Dogovor.docx">
+                            <label class="form-check-label" for="file1">Договор</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="file2" name="files" value="/assets/doc/Sertifikat.docx">
+                            <label class="form-check-label" for="file2">Сертификат</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="file3" name="files" value="/assets/doc/Ukaz.docx">
+                            <label class="form-check-label" for="file3">Указ</label>
+                        </div>
+                    </form>
+                    <button id="downloadBtn" class="btn btn-primary mt-3">Скачать выбранные</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("downloadBtn").addEventListener("click", function() {
+            const selectedFiles = document.querySelectorAll('input[name="files"]:checked');
+            if (selectedFiles.length === 0) {
+                alert("Выберите хотя бы один файл!");
+                return;
+            }
+
+            selectedFiles.forEach(file => {
+                const a = document.createElement("a");
+                a.href = file.value;
+                a.download = file.value.split("/").pop();
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            });
+        });
+    </script>
+</main>
